@@ -1,0 +1,26 @@
+Cloudwatch
+
+Used for monitoring
+Stanard  5 minuts
+Detailed 1 minutes
+
+Can create Dashboard
+have alarms
+events 
+logs
+metrics
+
+Alarms are of 3 types
+Alarm
+Insufficient
+OK
+
+Logs
+allow you to monitor instances at application level
+aggregate, monitor store logs
+
+http response code 
+kernel logs
+
+Events
+Respond to state changes in your AWS resources

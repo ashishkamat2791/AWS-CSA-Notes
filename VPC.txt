@@ -1,0 +1,4 @@
+Section 1 VPC
+Virtual Network or data center inside AWS for one clinet or a department in a enterprise
+The AWS client hase full control over resources & virtual compute instances (virtual server) hosted inside VPC
+Is similar to your own data center inside AWS
