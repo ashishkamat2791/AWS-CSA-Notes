@@ -1,4 +1,301 @@
-Section 1 VPC
-Virtual Network or data center inside AWS for one clinet or a department in a enterprise
-The AWS client hase full control over resources & virtual compute instances (virtual server) hosted inside VPC
-Is similar to your own data center inside AWS
+VPC
+- A virtual private cloud (VPC) is a virtual network dedicated to the AWS account. It is logically isolated from other virtual networks in the AWS cloud.
+- VPC allows the user to select IP address range, create subnets, and configure route tables, network gateways, and security settings.
+
+*****************
+VPC Sizing
+*****************
+- VPC needs a set of IP addresses in the form of a Classless Inter-Domain Routing (CIDR) block for e.g, 10.0.0.0/16, which allows 2^16 (65536) IP address to be available 
+- Allowed CIDR block size is between
+	/28 netmask (minimum with 2^4 – 16 available IP address) and
+	/16 netmask (maximum with 2^16 – 65536 IP address)
+- CIDR block from private (non-publicly routable) IP address can be assigned
+	10.0.0.0 – 10.255.255.255 (10/8 prefix)
+	172.16.0.0 – 172.31.255.255 (172.16/12 prefix)
+	192.168.0.0 – 192.168.255.255 (192.168/16 prefix)
+- CIDR block once assigned to the VPC cannot be modified
+- Each VPC is separate from any other VPC created with the same CIDR block even if it resides within the same AWS account
+- Connection between your VPC and corporate or home network can be established, however the CIDR blocks should be not be overlapping for e.g. VPC with CIDR 10.0.0.0/16 can communicate with 10.1.0.0/16 corporate network but the connections would be dropped if it tries to connect to 10.0.37.0/16 corporate network cause of overlapping ip addresses.
+- Deletion of the VPC is possible only after terminating all instances within the VPC, and deleting all the components with the VPC for e.g. subnets, security groups, network ACLs, route tables, Internet gateways, VPC peering connections, and DHCP options
+
+**********************
+**********************
+VPC Components
+*********************
+*********************
+
+***************
+IP Addresses
+***************
+$$$$$$$$$$$$$$$$$$$$$$
+Private IP Addresses
+$$$$$$$$$$$$$$$$$$$$$$
+- Private IP addresses are not reachable over the Internet, and can be used for communication only between the instances within the VPC
+- All instances are assigned a private IP address, within the IP address range of the subnet, to the default network interface
+- Primary IP address is associated with the network interface for its lifetime, even when the instance is stopped and restarted and is released only when the instance is terminated
+- Additional Private IP addresses, known as secondary private IP address, can be assigned to the instances and these can be reassigned from one network interface to another
+
+$$$$$$$$$$$$$$$$$$$$$$$$
+Public IP address
+$$$$$$$$$$$$$$$$$$$$$$$$
+- Public IP addresses are reachable over the Internet, and can be used for communication between instances and the Internet, or with other AWS services that have public endpoints
+- Public IP address assignment to the Instance depends if the Public IP Addressing is enabled for the Subnet.
+- Public IP address can also be assigned to the Instance by enabling the Public IP addressing during the creation of the instance, which overrides the subnet’s public IP addressing attribute
+- Public IP address is assigned from AWS pool of IP addresses and it is not associated with the AWS account and hence is released when the instance is stopped and restarted or terminated.
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Elastic IP address
+$$$$$$$$$$$$$$$$$$$$$$$$$$$
+- Elastic IP addresses are static, persistent public IP addresses which can be associated and disassociated with the instance, as required
+- Elastic IP address is allocated at an VPC and owned by the account unless released
+- A Network Interface can be assigned either a Public IP or an Elastic IP. If you assign an instance, already having an Public IP, an Elastic IP, the public IP is released
+- Elastic IP addresses can be moved from one instance to another, which can be within the same or different VPC within the same account
+- Elastic IP are charged for non usage i.e. if it is not associated or associated with a stopped instance or an unattached Network Interface
+
+********************
+ENI 
+*******************
+- Each Instance is attached with default elastic network interface (Primary Network Interface eth0) and cannot be detached from the instance
+- ENI can include the following attributes
+	- Primary private IP address
+	- One or more secondary private IP addresses
+	- One Elastic IP address per private IP address
+	- One public IP address, which can be auto-assigned to the network interface for eth0 when you launch an instance, but only when you create a network interface for eth0 instead of using an existing ENI
+	- One or more security groups
+	- A MAC address
+	- A source/destination check flag
+
+********************
+Route Tables
+********************
+
+- Each VPC has a Main Route table, and can have multiple custom route tables created
+- Each Subnet within a VPC must be associated with a single route table at a time, while a route table can have multiple subnets associated with it
+- Subnet, if not explicitly associated to a route table, is implicitly associated with the main route table
+- Every route table contains a local route that enables communication within a VPC which cannot be modified or deleted
+- Route priority is decided by matching the most specific route in the route table that matches the traffic
+- Route tables needs to be updated to defined routes for Internet gateways, Virtual Private gateways, VPC Peering, VPC Endpoints, NAT Device etc.
+
+************************
+IGW
+**********************
+- An Internet gateway is a horizontally scaled, redundant, and highly available VPC component that allows communication between instances in the VPC and the Internet.
+- An Internet gateway serves two purposes:
+	- To provide a target in the VPC route tables for Internet-routable traffic,
+	- To perform network address translation (NAT) for instances that have been assigned public IP addresses.
+
+- Enabling Internet access to an Instance requires
+	- Attaching Internet gateway to the VPC
+	- Subnet should have route tables associated with the route pointing to the Internet gateway
+	- Instances should have a Public IP or Elastic IP address assigned
+	- Security groups and NACLs associated with the Instance should allow relevant traffic
+
+************
+***********
+NAT
+***********
+***********
+AWS allows NAT configuration in 2 ways
+	-NAT Instance
+	- NAT Gateway, managed service by AWS
+- NAT device enables instances in a private subnet to connect to the Internet or other AWS services, but prevents the - Internet from initiating connections with the instances.
+- enables instances in a private subnet to connect to the Internet, but prevents the Internet from initiating connections with the instances.
+- Instances in private subnets would need internet connection for performing software updates or trying to access external services
+- NAT instance prevents instances to be directly exposed to the Internet and having to be launched in Public subnet and assignment of the Elastic IP address to all, which are limited.
+- NAT device routes the traffic, from the private subnet to the Internet, by replacing the source IP address with its address and for the response traffic it translates the address back to the instances’ private IP addresses.
+
+
+Configuration Key-points
+
+- needs to be launched in the Public Subnet
+- needs to be associated with an Elastic IP address (or public IP address)
+- should have the Source/Destination flag disabled to route traffic from the instances in the private subnet to the Internet and send the response back
+- should have a Security group associated that
+	- allows Outbound Internet traffic from instances in the private subnet
+	- disallows Inbound Internet traffic from everywhere
+- Instances in the private subnet should have the Route table configured to direct all Internet traffic to the NAT device
+
+
+*******************
+NAT Gateway
+*******************
+
+- NAT gateway is a AWS managed NAT service
+
+- A NAT gateway supports bursts of up to 10 Gbps of bandwidth.
+- NAT gateway is associated with One Elastic IP address which cannot be disassociated after it’s creation.
+- Each NAT gateway is created in a specific Availability Zone and implemented with redundancy in that zone.
+- A NAT gateway supports the following protocols: TCP, UDP, and ICMP.
+- NAT gateway cannot be associated a security group. Security can be configured for the instances in the private subnets to control the traffic
+- NAT gateway when created receives an elastic network interface that’s automatically assigned a private IP address from the IP address range of your subnet. Attributes of this network interface cannot be modified
+- NAT gateway cannot send traffic over VPC endpoints, VPN connections, AWS Direct Connect, or VPC peering connections. Private subnet’s route table should be modified to route the traffic directly to these devices.
+
+*********************
+NAT Instance
+********************
+- NAT instance can be created by using Amazon Linux AMIs configured to route traffic to Internet.
+- They do not provide the same availability and bandwidth and need to configured as per the application needs.
+- NAT instances must have security groups associated with Inbound traffic enabled from private subnets and Outbound traffic enabled to the Internet
+- NAT instances should have the Source Destination Check attribute disabled, as it is neither the source nor the destination for the traffic and merely acts as a gateway
+
+******************************
+High availabilty of NAT Instance
+********************************
+- Create One NAT instance per Availability Zone
+- Configure all Private subnet route tables to the same zone NAT instance
+- User Auto Scaling for NAT availability
+- User Auto Scaling group per NAT instance with min and max size set of 1. So if NAT instances fail, Auto Scaling will automatically launch an replacement instance
+- NAT instance is highly available with limited downtime
+- Let Auto Scaling monitor health and availability of the NAT instance
+- Bootstrap scripts with the NAT instance to update the Route tables programmatically
+
+
+********************************************
+Why Disabling Source/Destination checks
+*******************************************
+
+- Each EC2 instance performs source/destination checks, by default, and the instance must be the source or destination of any traffic it sends or receives.
+- However, as the NAT instance acts as a router between the Internet and the instances in the private subnet it must be able to send and receive traffic when the source or destination is not itself.
+- Therefore, the source/destination checks on the NAT instance should be disabled
+
+*****************************
+*****************************
+VPC Security
+***************************
+***************************
+
+Security groups – Act as a firewall for associated EC2 instances, controlling both inbound and outbound traffic at the instance level
+
+Network access control lists (ACLs) – Act as a firewall for associated subnets, controlling both inbound and outbound traffic at the subnet level
+
+Flow logs – Capture information about the IP traffic going to and from network interfaces in your VPC
+
+************************
+Security Groups
+************************
+
+- Acts at an Instance level and not at the subnet level.
+- Each instance within a subnet can be assigned a different set of Security groups
+- An instance can be assigned 5 security groups with each security group having 50 rules
+- Security groups allows you to add or remove rules (authorizing or revoking access) for both Inbound (ingress) and Outbound (egress) traffic to the instance
+Default Security group allows no external inbound traffic but allows inbound traffic from instances with the same security group
+- Default Security group allows all outbound traffic
+- New Security groups start with only an outbound rule that allows all traffic to leave the instances
+- Security groups can specify only Allow rules, but not deny rules
+- Security groups can grant access to a specific CIDR range, or to another security group in the VPC or in a peer VPC (requires a VPC peering connection)
+- Security groups are evaluated as a Whole or Cumulative bunch of rules with the most permissive rule taking precedence. For e.g. if you have a rule that allows access to TCP port 22 (SSH) from IP address 203.0.113.1 and another rule that allows access to TCP port 22 from everyone, everyone has access to TCP port 22.
+- Security groups are Stateful – responses to allowed inbound traffic are allowed to flow outbound regardless of outbound rules, and vice versa. Hence an Outbound rule for the response is not needed
+- Security groups are associated with ENI (network interfaces).
+- Security groups associated with the instance can be changed, which changes the - security groups associated with the primary network interface (eth0) and the changes would be applicable immediately to all the instances associated with the Security group
+
+
+*************************
+NACL
+*************************
+- A Network ACLs (NACLs) is an optional layer of security for the VPC that acts as a firewall for controlling traffic in and out of one or more subnets.
+- NACLs are not for granular control and are assigned at a Subnet level and is applicable to all the instances in that Subnet
+- Network ACL has separate inbound and outbound rules, and each rule can either allow or deny traffic
+- Default ACL allows all inbound and outbound traffic.
+- Newly created ACL denies all inbound and outbound traffic
+- A Subnet can be assigned only 1 NACLs and if not associated explicitly would be associated implicitly with the default NACL
+- Network ACL is a numbered list of rules that are evaluated in order
+starting with the lowest numbered rule, to determine whether traffic is allowed in or out of any subnet associated with the network ACL
+for e.g. if you have a Rule No. 100 with Allow All and 110 with Deny All, the Allow All would take precedence and all the traffic will be allowed
+- Network ACLs are Stateless; responses to allowed inbound traffic are subject to the rules for outbound traffic (and vice versa) for e.g. if you enable Inbound SSH on port 22 from the specific IP address, you would need to add a Outbound rule for the response 
+
+**************************
+Flow Logs
+*************************
+
+- VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in the VPC and can help in monitoring the traffic or troubleshooting any connectivity issues
+- Flow log data is stored using Amazon CloudWatch Logs
+- Flow log can be created for the entire VPC, subnets or each network interface. If enabled, for entire VPC or subnet all the network interfaces are monitored
+- Flow logs do not capture real-time log streams for network interface
+
+
+**********************************
+**********************************
+Subnets
+***********************************
+***********************************
+
+- Subnet spans a single Availability Zone, distinct locations engineered to be isolated from failures in other AZs, and cannot span across AZs
+- Subnet can be configured with an Internet gateway to enable communication over the Internet, or virtual private gateway (VPN) connection to enable communication with your corporate network
+- Subnet can be Public or Private and it depends on whether it has Internet connectivity i.e. is able to route traffic to the Internet through the IGW
+- Instances within the Public Subnet should be assigned a Public IP or Elastic IP address to be able to communicate with the Internet
+- For Subnets not connected to the Internet, but has traffic routed through Virtual Private Gateway only is termed as VPN-only subnet
+- Subnets can be configured to Enable assignment of the Public IP address to all the Instances launched within the Subnet by default, which can be overridden during the creation of the Instance
+
+*********************
+Subnet Sizing
+*********************
+- CIDR block assigned to the Subnet can be the same as the VPC CIDR, in this case you can launch only one subnet within your VPC
+- CIDR block assigned to the Subnet can be a subset of the VPC CIDR, which allows you to launch multiple subnets within the VPC
+- CIDR block assigned to the subnet should not be overlapping
+- CIDR block size allowed is between
+	/28 netmask (minimum with 2^4 – 16 available IP address) and
+	/16 netmask (maximum with 2^16 – 65536 IP address)
+- AWS reserves 5 IPs address (first 4 and last 1 IP address) in each Subnet which are not available for use and cannot be assigned to an instance. for e.g. for a Subnet with a CIDR block 10.0.0.0/24 the following five IPs are reserved
+	10.0.0.0: Network address
+	10.0.0.1: Reserved by AWS for the VPC router
+	10.0.0.2: Reserved by AWS for mapping to Amazon-provided DNS
+	10.0.0.3: Reserved by AWS for future use
+	10.0.0.255: Network broadcast address. AWS does not support broadcast in 	a VPC, therefore the address is reserved.
+
+**********************
+Subnet Routing
+**********************
+
+- Each Subnet is associated with a route table which controls the traffic.
+
+****************
+Subnet Security
+*****************
+- Subnet security can be configured using Security groups and NACLs
+- Security groups works at instance level, NACLs work at the subnet level
+
+
+
+********************************
+*******************************
+VPC Peering
+******************************
+******************************
+
+- A VPC peering connection is a networking connection between two VPCs that enables routing of traffic between them using private IP addresses.
+- Instances in either VPC can communicate with each other as if they are within the same network
+- VPC peering connection can be established between your own VPCs, or with a VPC in another AWS account within a single region.
+
+
+**********************
+Rules & Limitations
+*********************
+1. VPC peering connection cannot be created between VPCs that have matching or overlapping CIDR blocks.
+2. VPC peering connection cannot be created between VPCs in different regions.
+3. VPC peering connection are limited on the number active and pending VPC peering connections that you can have per VPC.
+4. VPC peering does not support transitive peering relationships 
+ PM
+5. VPC peering does not support Edge to Edge Routing Through a Gateway or Private Connection
+
+In a VPC peering connection, your VPC does not have access to any other connection that the peer VPC may have and vice versa. Connections that the peer VPC can include
+	- A VPN connection or an AWS Direct Connect connection to a corporate network
+	- An Internet connection through an Internet gateway
+	- An Internet connection in a private subnet through a NAT device
+	- A ClassicLink connection to an EC2-Classic instance
+	- A VPC endpoint to an AWS service; for example, an endpoint to S3.
+6. Only one VPC peering connection can be established between the same two VPCs at the same time
+7. Maximum Transmission Unit (MTU) across a VPC peering connection is 1500 bytes.
+8. A placement group can span peered VPCs; however, you do not get full-bisection bandwidth between instances in peered VPCs.
+9. Unicast reverse path forwarding in VPC peering connections is not supported.
+10. Instance’s public DNS hostname does not resolve to its private IP address across peered VPCs.
+
+
+********************************
+VPC Endpoints Overview
+**************************
+- VPC endpoint enables creation of a private connection between your VPC and another AWS service using its private IP address
+- VPC Endpoint does not require a public IP address, access over the Internet, NAT device, a VPN connection or AWS Direct Connect
+- Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and AWS services without imposing availability risks or bandwidth constraints on your network traffic.
+- Traffic between VPC and AWS service does not leave the Amazon network
+Endpoints currently do not support cross-region requests, ensure that the endpoint is created in the same region as your bucket
+- AWS currently supports endpoints for S3 service only
