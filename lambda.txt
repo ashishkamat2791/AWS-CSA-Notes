@@ -3,18 +3,20 @@ Lambda
 region specific
 Released in 2015
 
-Encapsulate 
+It Encapsulate 
+-data centres
+- hardware
+- assembly code/protocols
+- high level languages
+- Operating systems
+- Application layer/AWS APIs
 
-data centres
-hardware
-assembly code/protocols
-high level languages
-Operating systems
-Application layer/AWS APIs
-
+***************************
 Lambda can be used for
-Compute Service where you can upload your code and create Lambda function.
-AWS lambda takes care of provisioninig and managing the servers that you use to run the code. You dont have to worry about Operating Systems , patching, scaling etc. You can use Lambda in following ways
+***************************
+
+1)  Compute Service where you can upload your code and create Lambda function.
+  AWS lambda takes care of provisioninig and managing the servers that you use to run the code. You dont have to worry about Operating     Systems , patching, scaling etc. You can use Lambda in following ways
 
 Eg 
 
@@ -25,7 +27,7 @@ You could send this information to SQS or SNS which then goes to or trigger furt
 lambda is scale out so it gives same consistency and throughput whether it is working for 1 user or millions of user. no need to worry about maintaining Infrastructure, load balancers
 
 
-As an event driven compute service where AWS lambda runs your code in response to events.These events could be changes to data in an Amazon s3 bucket or an Amazon DynamoDB table.
+2) As an event driven compute service where AWS lambda runs your code in response to events.These events could be changes to data in an Amazon s3 bucket or an Amazon DynamoDB table.
 As a compute service to run your code in response to HTTP requests using API gateway or API calls made using AWS SDKs.
 
 Eg
@@ -37,6 +39,9 @@ Everyime you are invoking API gateway cretes new lambda function so code is iden
 
 Very good compared to EC2 service as we need to manage load balancing apply launch configurations do autoscaling etc
 
+***************
+Scale up vs Scale out
+******************
 Scales up
 increase amount of resources like RAM, CPU
 
@@ -45,23 +50,26 @@ adding more instances to manage load
 
 Lambda scales out efficiently
 
-language support
+***************************
+language support as of now
+**************************
+-java
+-node js
+-c#
+-python
 
-java
-node js
-c#
-python
-
-
+*****************
 Pricing
+*****************
+- based on no of requests
+- First 1 million request free then $0.20 per 1 million requests thereafter
 
-based on no of requests
-First 1 million request free then $0.20 per 1 million requests thereafter
-
+*******************
 Duration
-duration is calculated from the time your code begins execution untill it returns or otherwise terminates, rounded up to nearest 100ms
-price depends on amount of memory allocated to your function
-charged for $0.00001667 for every GB-second used
+*******************
+- duration is calculated from the time your code begins execution untill it returns or otherwise terminates, rounded up to nearest 100ms
+- price depends on amount of memory allocated to your function
+- charged for $0.00001667 for every GB-second used
 
 
 Cool!!
@@ -83,17 +91,21 @@ Lambda can do thing globally, you can use it back up s3 buckets to other S3 buck
 
 know your trigger
 all new triggers will be available in northen-virginea
+
+***********************************
 Following are triggers available
-API Gateway
-AWS IoT
-Alexa 
-Clodfront
-Cloudwatch events
-Codecommit
-DynamoDB
-Kinesis
-S3
-SNS
+**********************************
+
+- API Gateway
+- AWS IoT
+- Alexa 
+- Clodfront
+- Cloudwatch events
+- Codecommit
+- DynamoDB
+- Kinesis
+- S3
+- SNS
 
 
 
