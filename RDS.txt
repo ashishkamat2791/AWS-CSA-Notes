@@ -1,0 +1,197 @@
+RDS
+
+- web service that makes it easier to set up, operate, and scale a relational database in the cloud.
+
+**********************
+Benefits and Features
+**********************
+- CPU, memory, storage, and IOPS can be scaled independently.
+- manages backups, software patching, automatic failure detection, and recovery.
+- automated backups can be performed as needed, or manual backups can be triggered as well. Backups can be used to restore a database, and the RDS restore process works reliably and efficiently.
+- provides high availability with a primary instance and a synchronous secondary instance that can be failovered to seamlessly when a problem occurs.
+- provides elasticity & scalability by enabling MySQL, MariaDB, or PostgreSQL Read Replicas to increase read scaling.
+- supports MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server, and the new, MySQL-compatible Amazon Aurora DB engine
+
+*******
+as it is a managed service, shell (root ssh) access to DB instances is not provided, and this restricts access to certain system procedures and tables that require advanced privileges.
+*********
+
+
+******************
+******************
+RDS Components
+*******************
+*******************
+
+***********************
+DB Isntance
+**********************
+
+- is a basic building block of RDS
+- is an isolated database environment in the cloud
+- each DB instance runs a DB engine. AWS currently supports MySQL, MariaDB, PostgreSQL, Oracle, and Microsoft SQL Server & Aurora DB engines
+- can be accessed from Amazon AWS command line tools, Amazon RDS
+APIs, or the AWS Management RDS Console.
+- computation and memory capacity of an DB instance is determined by its DB instance class, which can be selected as per the needs
+- for each DB instance, 5 GB to 6 TB of associated storage capacity can be 
+selected
+- each DB instance has a DB instance identifier, which is customer-supplied name and must be unique for that customer in an AWS region. It uniquely identifies the DB instance when interacting with the Amazon RDS API and AWS CLI commands.
+- each DB instance can host multiple databases, or a single Oracle database with multiple schemas.
+- can be hosted in an AWS VPC environment for better control
+
+******************************
+Regions and Availability Zones
+********************************
+- DB instances can be hosted in several AZs, an option called a Multi-AZ deployment.
+	- Amazon automatically provisions and maintains a synchronous standby 	replica of the DB instance in a different AZ.
+	- Primary DB instance is synchronously replicated across AZs to the 	standby replica
+	- Provides data redundancy, failover support, eliminate I/O freezes, and 	minimize latency spikes during system backups.
+
+*********************
+DB Parameter Groups
+*********************
+- A DB parameter group contains engine configuration values that can be applied to one or more DB instances of the same instance type
+
+*********************
+DB Option Groups
+*********************
+
+Some DB engines offer tools that simplify managing the databases and making the best use of data.
+
+*************************
+Multi-AZ
+*************************
+- For Disaster Recovery only
+- Not Used for performace improvement (Read Replicas)
+Supprt
+ 	- SQL Sever
+	- Oracle
+	- Mysql Server
+	- PostgreSQL
+	- MariaDB
+
+**********************************
+Multi AZ Deployment
+**********************************
+In a Multi-AZ deployment,
+- RDS automatically provisions and maintains a synchronous standby replica in a different Availability Zone.
+- Copies of data are stored in different Availability Zones for greater levels of data durability.
+- Primary DB instance is synchronously replicated across Availability Zones to a standby replica to provide
+	- data redundancy,
+	- eliminate I/O freezes during snapshots and backups
+	- and minimize latency spikes during system backups.
+- For production workloads, it is recommended to use Multi-AZ deployment with Provisioned IOPS and DB instance classes (m1.large and larger), optimized for Provisioned IOPS for fast, consistent performance.
+- When Single-AZ deployment is modified to a Multi-AZ deployment (for engines other than SQL Server or Amazon Aurora)
+	- RDS takes a snapshot of the primary DB instance from the deployment and restores the snapshot into another Availability Zone.
+	- RDS then sets up synchronous replication between the primary DB instance and the new instance.
+This avoids downtime when conversion from Single AZ to Multi-AZ
+
+***********************
+Multi-AZ Failover
+**********************
+In the event of a planned or unplanned outage of the DB instance,
+- RDS automatically switches to a standby replica in another AZ, if enabled for Multi-AZ.
+- Time it takes for the failover to complete depends on the database activity and other conditions at the time the primary DB instance became unavailable.
+- Failover times are typically 60-120 secs. However, large transactions or a lengthy recovery process can increase failover time.
+- Failover mechanism automatically changes the DNS record of the DB instance to point to the standby DB instance.
+- Primary DB instance switches over automatically to the standby replica if any of the following conditions occur:
+	- An Availability Zone outage
+	- Primary DB instance fails
+	- DB instance’s server type is changed
+	- Operating system of the DB instance is undergoing software patching
+	- A manual failover of the DB instance was initiated using Reboot with failover (also referred to as Forced Failover)
+
+
+*********************
+Read Replica
+********************
+- allows to have a read only copy of your production environment
+- achieved by using asynchronous replication from the primary RDS to Read replicas
+- You use read replica's primarily for very read-heavy DB workloads
+- Used for Scaling!! not for DR
+- Must have automatic backups enabled to deploy read replica
+- Can have upto 5 read replicas of any DB
+- Can have read replicas of read replicas
+- Each Read replicas have its own DNS end point
+- Can be promoted to be thier own DB, This breaks replication
+- Read replica in a second region for Mysql and MariaDB,  PostgreSQL
+- Read Replicas must be explicitly deleted, using the same mechanisms for deleting a DB instance.
+- If the source DB instance is deleted without deleting the replicas, each replica is promoted to a stand-alone, single-AZ DB instance.
+- If the source instance of a Multi-AZ deployment fails over to the standby, any associated Read Replicas are switched to use the secondary as their replication source.
+
+
+***************************
+Encryption
+****************************
+- use the industry standard AES-256 encryption algorithm to encrypt data on the server that hosts the RDS instance
+
+- Data at Rest Encryption
+	- can be enabled on RDS instances to encrypt the underlying storage
+	- encryption keys are managed by KMS
+	- can be enabled only during instance creation
+	- once enabled, the encryption keys cannot be changed
+	- if the key is lost, the DB can only be restored from the backup
+Once encryption is enabled for an RDS instance,
+	- logs are encrypted
+	- snapshots are encrypted
+	- automated backups are encrypted
+	- read replicas are encrypted
+Cross region replicas and snapshots copy does not work since the key is only available in a single region
+**********************************
+RDS DB Snapshot considerations
+***********************************
+- DB snapshot encrypted using an KMS encryption key can be copied
+- Copying an encrypted DB snapshot, results in an encrypted copy of the DB snapshot
+- When copying, DB snapshot can either be encrypted with the same KMS encryption  key as the original DB snapshot, or a different KMS encryption key to encrypt the copy of the DB snapshot.
+- An unencrypted DB snapshot can be copied to an encrypted snapshot, a quick way to add encryption to a previously encrypted DB instance.
+- Encrypted snapshot can be restored only to an encrypted DB instance
+- If a KMS encryption key is specified when restoring from an unencrypted DB cluster snapshot, the restored DB cluster is encrypted using the specified KMS encryption key
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+******************
+Performance Metrics
+********************
+
+**********
+IOPS
+************
+- the number of I/O operations completed per second.
+- it is reported as the average IOPS for a given time interval.
+- RDS reports read and write IOPS separately on one minute intervals.
+- Total IOPS is the sum of the read and write IOPS.
+- Typical values for IOPS range from zero to tens of thousands per second.
+*****************
+Latency
+******************
+- the elapsed time between the submission of an I/O request and its completion
+- it is reported as the average latency for a given time interval.
+- RDS reports read and write latency separately on one minute intervals in units of seconds.
+- Typical values for latency are in the millisecond (ms)
+******************
+Throughput
+******************
+- the number of bytes per second transferred to or from disk
+- it is reported as the average throughput for a given time interval.
+- RDS reports read and write throughput separately on one minute intervals using units of megabytes per second (MB/s).
+- Typical values for throughput range from zero to the I/O channel’s maximum bandwidth.
+******************
+Queue Depth
+******************
+- the number of I/O requests in the queue waiting to be serviced.
+- these are I/O requests that have been submitted by the application but have not been sent to the device because the device is busy servicing other I/O requests.
+- it is reported as the average queue depth for a given time interval.
+- RDS reports queue depth in one minute intervals. Typical values for queue depth range from zero to several hundred.
+- Time spent waiting in the queue is a component of Latency and
+- Service Time (not available as a metric).
