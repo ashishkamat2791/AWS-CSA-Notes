@@ -1,6 +1,6 @@
 # ASG 
 
-
+![Alt Text](http://docs.aws.amazon.com/autoscaling/latest/userguide/images/as-basic-diagram.png "ASG")
 
 ## Overview
 
