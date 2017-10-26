@@ -32,12 +32,12 @@ Push based notifications to
 * lambda
 
 ```
-Allows you to group multiple recipent using topic
-Access point topic allowing receipents to dynamically subscribe for identical copies of same notification.
-One topic can support to multiple end-point types
-When you publish once to a topic, SNS delivers appropriately formatted copies of your message to each subscriber.
+* Allows you to group multiple recipent using topic
+* Access point topic allowing receipents to dynamically subscribe for identical copies of same notification.
+* One topic can support to multiple end-point types
+* When you publish once to a topic, SNS delivers appropriately formatted copies of your message to each subscriber.
 
-To prevent from messages being lostAll messages mto SNS are stored redundantly across multiple AZ.
+* To prevent from messages being lostAll messages mto SNS are stored redundantly across multiple AZ.
 ```
 ### Benefits
 * Instanteneous push based delivery (No polling)
