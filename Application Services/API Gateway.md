@@ -1,5 +1,7 @@
 # API Gateway
 
+![Alt text](http://docs.aws.amazon.com/apigateway/latest/developerguide/images/BackplaneArch.png "API Gatway")
+
 Fully managed service that makes it easy fo developers to publish, maintain, monitor and secure APIs at any scale.
  With a few clicks in the AWS Managment console, you can create an API that act as front door for application to access data, business logic, or functionality from your backend services, such as application running on EC2, code running on AWS lambda, or any  web application
 
