@@ -31,7 +31,7 @@ Push based notifications to
 * Application
 * lambda
 
-
+### What It Does? 
 * Allows you to group multiple recipent using topic
 * Access point topic allowing receipents to dynamically subscribe for identical copies of same notification.
 * One topic can support to multiple end-point types
