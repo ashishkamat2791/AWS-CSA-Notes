@@ -2,7 +2,8 @@ SQS
 
 Oldest AWS Service
 Gives you access to message queue that can be used to store messages while waiting for computers to process them
-Distributed queue system that enables web service application to quickly & reliably queue message that on component in app generates to be consumed by another component.
+Distributed queue system that enables web service application to quickly & reliably queue message that on 
+component in app generates to be consumed by another component.
 
 queue is a temporary repository for message that are awaitinig processing.
 
@@ -11,7 +12,8 @@ Eg Meme website
 If you loose Ec2 instnance, messages will remain overthere not going to loose, another EC2 instance will pick up that
 
 Eg Travel Website
-If application server crashes, message still remain in queue, marked as invisble, for Timeout window, after it outs, message will come again & anthoer app will pick up that job (2 times a message)
+If application server crashes, message still remain in queue, marked as invisble, for Timeout window, after it outs, 
+message will come again & anthoer app will pick up that job (2 times a message)
 
 
 Advanatages
@@ -22,7 +24,8 @@ Advanatages
 
  Message can contain upto 256 KB text in any format
 queue act as buffer between component producing & saving data, & component receiving data for processing
-queue resolves issue that arise in the producer is producing work faster than consumer can process it, or if producer/consumer are only intermittntly connected to the network
+queue resolves issue that arise in the producer is producing work faster than consumer can process it, 
+or if producer/consumer are only intermittntly connected to the network
 
 
 Types of Queue
@@ -31,7 +34,8 @@ Types of Queue
 
 unlimited transactions per second
 gurantess message is delived atleast once 
-however because of of highly available applications expecting high throughput same message might get deliverd twice
+however because of of highly available applications expecting high throughput same message might get 
+deliverd twice
 
 provide best effort ordering which ensures message are geerally delivered in same-way as they sent.
 
@@ -53,7 +57,9 @@ Key facts
 2) Message is of 256 KB in size (json,xml,txt)
 3) Messages can be kept in queeue from 1 min to 14 days
 deafult 4 days
-4)Visiblity Time out (same message twice) amount of time message is invisible in SQS queus after reader picks up that message. Provided job is processed before visibilty time out expires, message will then be deleted from queue.
+4)Visiblity Time out (same message twice) amount of time message is invisible in SQS queus after reader 
+picks up that message. Provided job is processed before visibilty time out expires, message will then
+be deleted from queue.
 If job is not processed within time, message will be visible again & another reader process.
 5) Visibilty Time out is max of 12 hrs
 6) Gurantess that your message will be processed atleast once.
@@ -61,7 +67,8 @@ If job is not processed within time, message will be visible again & another rea
 Types of Polling
 
 A] Long Polling (1-20 seconds)
-Allows SQS service to wait untill a message is available in a queue before sending a response, and will return all messages from all SQS services.
+Allows SQS service to wait untill a message is available in a queue before sending a response, and will return 
+all messages from all SQS services.
 Long polling reduces API requests (over using short polling)
 
 B] Short polling
