@@ -74,7 +74,7 @@ Auto Scaling group can be deleted from CLI, if it has no running instances else 
 
 
 
-**uto Scaling groups cannot span multiple regions.**
+**Auto Scaling groups cannot span multiple regions.**
 
 ## Auto Scaling Plans
 
@@ -191,7 +191,7 @@ Accepts notifications from CloudWatch alarms that are associated with the group.
  Performs scheduled actions that you create.
 * 7) AddToLoadBalancer – 
 Adds instances to the load balancer when they are launched.
-* 8)**AZRebalance – **
+* 8)**AZRebalance**
 Balances the number of EC2 instances in the group across the Availability Zones in the region.
 
 
