@@ -1,6 +1,6 @@
 # Lambda
 
-[!Alt_Text](https://image.slidesharecdn.com/rigadevday-160302153204/95/riga-dev-day-lambda-architecture-at-aws-26-638.jpg?cb=1456933179 "Lambda")
+![Alt_Text](https://image.slidesharecdn.com/rigadevday-160302153204/95/riga-dev-day-lambda-architecture-at-aws-26-638.jpg?cb=1456933179 "Lambda")
 * region specific
 * Released in 2015
 
