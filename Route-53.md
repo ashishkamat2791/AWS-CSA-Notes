@@ -1,15 +1,16 @@
 # Route 53
+ ![Alt_Text](https://cloudacademy.com/blog/wp-content/uploads/2015/08/route-53-latency.png "Route 53")
 
-![Alt_Text](https://cloudacademy.com/blog/wp-content/uploads/2015/08/route-53-latency.png "Route 53")
-**Provide following functions**
 
-**1) Domain registration- **
+Provide following functions
+
+* **1) Domain registration-**
 allows you to register domain names
-**2) Domain Name System (DNS) service- **
+* **2) Domain Name System (DNS) service-**
 	* translates friendly domains names like www.example.com into IP 	addresses like 192.0.2.1
 	* responds to DNS queries using a global network of authoritative DNS 	servers, which reduces latency
 	* can route Internet traffic to CloudFront, Elastic Beanstalk, ELB, or 	S3. There’s no charge for DNS queries to these resources
-**3) Health checking**
+* **3) Health checking**
 	* can monitor the health of resources such as web and email servers.
 	* sends automated requests over the Internet to the application to
 	verify that it’s reachable, available, and functional
