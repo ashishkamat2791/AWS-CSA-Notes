@@ -3,7 +3,7 @@
 
 ## I] Dyanamo DB
 
-
+![Alt_Text](https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_1489711576/dynamodb.png "DynamoDB")
 * Fast flexible NOSQL DB storage service for all application taht needs consitent,  singlr digit ms latency at any scale
 * Fully managed DB & support both Document & Key-value Data Model
 * Used for 
@@ -54,7 +54,7 @@ names and attribute values, cannot exceed **400KB.**
 
 ## II] Redshift
 
-
+![Alt_Text](https://clouda-assets.s3.amazonaws.com/upload/54d0e379d287c266052be6a0.png?1422975867"Redshift")
 * Fast, powerful, fully managed, petabyte scale Data warehouse service
 * Customer can go for small instance with just $0.5/hr with no commitments or upfront costs to petabyte or more for $ low price
 per TB 1/10th of ocost
@@ -117,6 +117,7 @@ Configuration
 
 ## III]Elastic Cache
 
+![Alt_Text](https://conceptdraw.com/a3134c3/p16/preview/640/pict--elasticache-aws-database---vector-stencils-library.png--diagram-flowchart-example.png "Elastc Cache")
 * In Memory DB
 * Improves performace of Web appliacations by allowing you to retrieve information from fast in-memeory caches, 
 instead of Distributed DB
@@ -128,6 +129,7 @@ instead of Distributed DB
   * Redis key-value store
   
 ## IV] Auroroa
+ 
  
  * mysql compatible relational DB 
  * 5 times better performace than mysql
