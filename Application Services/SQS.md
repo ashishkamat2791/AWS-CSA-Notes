@@ -59,9 +59,8 @@ but have all capabilities of Standard one
 
 1) Pull based not push based
 2) Message is of **256 KB** in size (json,xml,txt)
-3) Messages can be kept in queeue from **1** min to **14** days
-**deafult 4** days
-**4)Visiblity Time out** (same message twice) amount of time message is invisible in SQS queus after reader 
+3) Messages can be kept in queeue from **1** min to **14** days **deafult 4** days
+4)Visiblity Time out** (same message twice) amount of time message is invisible in SQS queus after reader 
 picks up that message. Provided job is processed before visibilty time out expires, message will then
 be deleted from queue.
 If job is not processed within time, message will be visible again & another reader process.
