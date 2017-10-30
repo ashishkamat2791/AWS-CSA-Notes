@@ -78,3 +78,19 @@ Long polling **reduces API requests** (over using short polling)
 SQS samples a subset of servers and returns message from just those servers
 will not return all possible messages in a poll
 Increase API requests (over long polling), which increase costs.
+
+## SQS Workflow
+* Generally a worker instance will "poll" a queue to retrive waiting message for processing
+* Auto scaling can be applied based off queue size that if a component of your application 
+has an increase in demand, the no of worker instance can increase.
+
+
+## SQS vs SWF
+
+| No | SQS | SWF
+|--|--|--|
+|1 API  are of|message oriented| task oriented
+|2 Keeping track of all tasks| need to implement your own application-level tracking|managed by SWF
+|3 Application focus| Need to implement on your own| Application-centric view that lets you search for executions, drill down into Its details
+|4 Connectivity between tasks| Need to implement on you own| Provided by SWF, such as passing dat between tasks, and flexibity in distribution of tasks
+|5 Workflows| Can build basic workflows| Provided by SWF out of the box
