@@ -54,7 +54,7 @@ names and attribute values, cannot exceed **400KB.**
 
 ## II] Redshift
 
-![Alt_Text](https://clouda-assets.s3.amazonaws.com/upload/54d0e379d287c266052be6a0.png?1422975867"Redshift")
+
 * Fast, powerful, fully managed, petabyte scale Data warehouse service
 * Customer can go for small instance with just $0.5/hr with no commitments or upfront costs to petabyte or more for $ low price
 per TB 1/10th of ocost
@@ -117,7 +117,7 @@ Configuration
 
 ## III]Elastic Cache
 
-![Alt_Text](https://conceptdraw.com/a3134c3/p16/preview/640/pict--elasticache-aws-database---vector-stencils-library.png--diagram-flowchart-example.png "Elastc Cache")
+
 * In Memory DB
 * Improves performace of Web appliacations by allowing you to retrieve information from fast in-memeory caches, 
 instead of Distributed DB
