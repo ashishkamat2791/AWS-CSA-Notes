@@ -10,6 +10,6 @@
     * We can ask Cloudwatch to notify us (via SNS) if there has been changes, Eg;
         * Changes to IAM secuirty credentials
         * Assigning access policies to users.
-        * Adding/deleting users
-        
-  **It is important to know how we can use Cloudwatch for security in our AWS Environment**
+        * Adding/deleting users/
+* It is important to know how we can use Cloudwatch for security in our AWS Environment
+

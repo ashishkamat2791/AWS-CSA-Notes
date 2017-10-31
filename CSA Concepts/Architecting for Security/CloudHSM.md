@@ -1,6 +1,6 @@
 # CloudHSM
 
-![Alt_Text](https://blog.gemalto.com/wp-content/uploads/2013/03/aws-cloudhsm-300x242.png "Cloud HSM")
+![Alt_Text] (https://blog.gemalto.com/wp-content/uploads/2013/03/aws-cloudhsm-300x242.png "Cloud HSM")
 * HSM (Hardware Secuirty Model) is a dedicated physical machine/appliance isolated in order to store security keys and other types of encryption keys used within an application
 * The key is used within the domain of the HSM appliance instead of being exposed outside the appliance.
 

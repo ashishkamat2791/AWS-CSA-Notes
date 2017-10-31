@@ -1,8 +1,8 @@
  # Encryption Solutions:
 
-### S3 has built-in features that allow you to encrypt your data:
- * AES-256 bit encryption that encrypt data-at-rest in an S3 bucket.
- * AWS will decrypt the data and send to you when you download it.
+  ### S3 has built-in features that allow you to encrypt your data:
+    * AES-256 bit encryption that encrypt data-at-rest in an S3 bucket.
+    * AWS will decrypt the data and send to you when you download it.
 
 ### EBS encryped solutions:
 * You can select to have all data encrypted that is stored on an EBS for volume
