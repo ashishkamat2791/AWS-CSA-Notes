@@ -53,6 +53,13 @@ Its a mechanism that allows restrictedresources on a web page to be requested fr
 * low cost and scales automatically
 * log rsults to cloudwatch
 * AJAX/Javascript make sure that you have enabled CORS on API gateway
+* 429 HTTP CODE - throttling error
+* Free tier does not support API Caching
+* /sping and /ping is reserved path for API Gateway
+* You can pass variables to lambda using stage variables
+* Use AWS Service Proxy to forward requests to S3, Kinesis and Lambda
+* Integrated with Cognito
+* API has to be deployed to be publicly available
 
 ## Benefits
 
