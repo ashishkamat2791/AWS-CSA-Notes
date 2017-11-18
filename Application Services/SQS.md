@@ -47,7 +47,7 @@ provide best effort ordering which ensures message are geerally delivered in sam
 ### 2) FIFO
 
 Complemets Standard queue
-most important feture is **FIFO* exactly once processing
+most important feture is **FIFO** exactly once processing
 order is preserved for sent and recived unless consumer process and delte it.
 No duplications
 supports message groups that allow multiple ordered message groups witihn a single queue 
@@ -67,6 +67,16 @@ If job is not processed within time, message will be visible again & another rea
 5) **Visibilty Time out** is max of **12** hrs
 6) Gurantess that your message will be processed atleast once.
 
+
+### Values
+
+|Sr No|Parameter|Min Value|Max Value|Default value|
+|--|--|--|--|--|
+| 1 | Visibiity Time out| 0 sec| 12 hr|30 Sec|
+|2| Message Rentention Period|1 min|14 days|4 days|
+|3|Message size|1 KB|256 KB|256 KB
+|4|Delivery delay|0 sec|15 minutes|0 seconds|
+|5|Receive Message Wait time|0 sec|20 sec|0 sec|
 ## Types of Polling
 
 ### A] Long Polling (1-20 seconds)
