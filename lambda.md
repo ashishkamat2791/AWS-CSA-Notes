@@ -20,24 +20,24 @@
   AWS lambda takes care of provisioninig and managing the servers that you use to run the code. You dont have to worry about Operating     Systems , patching, scaling etc. You can use Lambda in following ways
 
 Eg 
-```
+
 So lets say we have got our user and our user wants to create MEM so they upload this to MEME to S3. Now since we have uploaded MEME to S3 It triggers an EVENT which is lambda function which might takes MEME and text we have supplied with it perhaps and then basically encode over the image and then store the image in S3
 This lambda event might trigger another lambda of it which returns imahe location of the new file back to the user 
 might then trigger another lambda event which will then take the image thats ins this s3 bucket and copy across another region somewhere else in the world
 You could send this information to SQS or SNS which then goes to or trigger further events
 lambda is scale out so it gives same consistency and throughput whether it is working for 1 user or millions of user. no need to worry about maintaining Infrastructure, load balancers
-```
+
 
 * As an event driven compute service where AWS lambda runs your code in response to events.These events could be changes to data in an Amazon s3 bucket or an Amazon DynamoDB table.
 As a compute service to run your code in response to HTTP requests using API gateway or API calls made using AWS SDKs.
 
 Eg
-```
+
 We have user browsing Google websites hits our server which goes to API gateway which triggers a lambda function Eg user wants to see discussion forum so lambda do computing and returns response back to user
 
 Since lambda scales out automatically througput remains same among all users.
 Everyime you are invoking API gateway cretes new lambda function so code is identical 
-```
+
 
 * Very good compared to EC2 service as we need to manage load balancing apply launch configurations do autoscaling etc
 
